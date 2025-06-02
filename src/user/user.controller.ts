@@ -11,7 +11,10 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/config/constants';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Users') // Agrupa os endpoints no Swagger
+@ApiBearerAuth() // Indica que precisa de token JWT
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
