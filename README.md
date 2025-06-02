@@ -22,9 +22,6 @@ $ pnpm install
 ## Rodando o projeto
 
 ```bash
-# development
-$ pnpm run start
-
 # watch mode
 $ pnpm run start:dev
 
@@ -44,6 +41,13 @@ $ pnpm run test:e2e
 # test coverage
 $ pnpm run test:cov
 ```
+
+## Acessando o swagger 
+``` TS
+http://localhost:3000/docs/
+```
+
+
 ## Deixando uma rota privada  (Protegida por token)
 ``` TS
   @UseGuards(AuthGuard)
@@ -55,7 +59,7 @@ $ pnpm run test:cov
 
 ## Deixando uma rota publica
 ``` TS
-  @isPublic()
+  @Public()
   @Get('profile')
   getProfile(@Request() req) {
     return "Estou Publica";
