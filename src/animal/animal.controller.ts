@@ -24,7 +24,7 @@ export class AnimalController {
 
   @Get(':id')
   findOne(@Param('id') id: number) {
-    return this.animalService.findOne(id);
+    return this.animalService.findOne(+id);
   }
 
   @Patch(':id')
@@ -34,6 +34,6 @@ export class AnimalController {
 
   @Delete(':id')
   remove(@Param('id') id: number) {
-    return this.animalService.remove(id);
+    return this.animalService.remove(+id);
   }
 }

@@ -9,10 +9,10 @@ export class Animal {
   name: string;
 
   @Column()
-  idade: number;
+  age: number;
 
   @Column()
-  sexo: string;
+  sex: string;
 
   @Column()
   race: string;

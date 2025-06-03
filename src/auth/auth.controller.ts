@@ -16,7 +16,6 @@ import { Public } from 'src/config/constants';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: Record<string, any>) {
@@ -24,7 +23,6 @@ export class AuthController {
     return this.authService.signIn(signInDto.document, signInDto.password);
   }
 
-  @Public()
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;

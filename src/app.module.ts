@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './entities/user.entity';
 import { AnimalModule } from './animal/animal.module';
+import { Animal } from './entities/animal.entity';
 
 @Module({
   imports: [
@@ -16,9 +17,9 @@ import { AnimalModule } from './animal/animal.module';
       port: 5432,
       username: 'postgres',
       password: 'llwk20051',
-      database: 'hpet_db',
-      entities: [User],
-      synchronize: false,
+      database: 'helppet_db',
+      entities: [User, Animal],
+      synchronize: true,
     }),
     AuthModule,
     UserModule,
