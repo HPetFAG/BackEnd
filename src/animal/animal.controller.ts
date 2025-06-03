@@ -2,13 +2,18 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AnimalService } from './animal.service';
 import { CreateAnimalDto } from './dto/create-animal.dto';
 import { UpdateAnimalDto } from './dto/update-animal.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { Public } from 'src/config/constants';
 
-@Controller('animal')
+@ApiTags('Animal') // Agrupa os endpoints no Swagger
+@Controller('Animal')
 export class AnimalController {
   constructor(private readonly animalService: AnimalService) {}
 
+  @Public()
   @Post()
   create(@Body() createAnimalDto: CreateAnimalDto) {
+    console.log(createAnimalDto)
     return this.animalService.create(createAnimalDto);
   }
 
@@ -18,17 +23,17 @@ export class AnimalController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.animalService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.animalService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAnimalDto: UpdateAnimalDto) {
+  update(@Param('id') id: number, @Body() updateAnimalDto: UpdateAnimalDto) {
     return this.animalService.update(+id, updateAnimalDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.animalService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.animalService.remove(id);
   }
 }
