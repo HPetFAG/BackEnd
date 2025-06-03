@@ -5,9 +5,9 @@ import { User } from '../entities/user.entity';
 export const AppDataSource = new DataSource({
   type: 'postgres',
   host: 'localhost',
-  port: 5435,
+  port: 5432,
   username: 'postgres',
-  password: 'xtz7qr87',
+  password: 'llwk20051',
   database: 'hpet_db',
   entities: [User],
   migrations: [path.resolve(__dirname, 'migrations', '*.{ts,js}')],
