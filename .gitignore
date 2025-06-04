@@ -2,7 +2,7 @@
 /dist
 /node_modules
 /build
-/config/migrations
+/src/config/migrations
 
 # Logs
 logs
