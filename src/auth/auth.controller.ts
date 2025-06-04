@@ -16,10 +16,10 @@ import { Public } from 'src/config/constants';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
   signIn(@Body() signInDto: Record<string, any>) {
-    console.log(signInDto)
     return this.authService.signIn(signInDto.document, signInDto.password);
   }
 
