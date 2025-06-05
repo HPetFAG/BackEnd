@@ -1,4 +1,4 @@
-import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('animals')
 export class Animal {
@@ -9,23 +9,47 @@ export class Animal {
   name: string;
 
   @Column()
-  age: number;
-
-  @Column()
-  sex: string;
+  age: string;
 
   @Column()
   race: string;
 
   @Column()
-  size: number;
+  gender: string;
 
   @Column()
-  temperament: string;
+  species: string;
 
-  @Column({ type: 'text', array: true })
-  historical_health: string[];
+  @Column()
+  color: string;
 
-  @Column({ type: 'text', array: true })
-  special_needs: string[];
+  @Column()
+  size: string;
+
+  @Column({ type: 'numeric', precision: 10, scale: 2 })
+  weight: number;
+
+  @Column({ type: 'numeric', precision: 10, scale: 2 })
+  height: number;
+
+  @Column({ name: 'physical_description', type: 'text', nullable:true })
+  physicalDescription: string;
+
+  @Column({ default: false })
+  vaccinated: boolean;
+
+  @Column({ default: false })
+  castrated: boolean;
+
+  @Column({ default: false })
+  microchipped: boolean;
+
+  @Column({ type: 'text', nullable: true })
+  observation: string;
+
+  @Column({ default: "disponivel"})
+  status:string;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createAt: Date;
 }

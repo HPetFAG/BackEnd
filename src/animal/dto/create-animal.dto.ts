@@ -1,38 +1,64 @@
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateAnimalDto {
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 
-    @IsString()
-    @IsNotEmpty({ message: 'O nome é obrigatório.'})
-    name: string;
-    
-    @IsNotEmpty({ message: 'A idade é obrigatória.'})
-    @IsNumber({}, { message: 'A idade deve ser um número.' })
-    age: number;
+  @IsString()
+  @IsNotEmpty()
+  age: string;
 
-    @IsString()
-    @IsNotEmpty({ message: 'O sexo é obrigatório.'})
-    sex: string;
+  @IsString()
+  @IsNotEmpty()
+  race: string;
 
-    @IsString()
-    @IsNotEmpty({ message: 'A raça é obrigatória.'})
-    race: string;
+  @IsString()
+  @IsNotEmpty()
+  gender: string;
 
-    @IsNumber({}, { message: 'O porte deve ser um número.' })
-    @IsNotEmpty({ message: 'O porte é obrigatório.'})
-    size: number;
+  @IsString()
+  @IsNotEmpty()
+  species: string;
 
-    @IsNumber({}, { message: 'O porte deve ser um número.' })
-    @IsNotEmpty({ message: 'O porte é obrigatório.'})
-    temperament: string;
+  @IsString()
+  @IsNotEmpty()
+  color: string;
 
-    @IsArray()
-    @IsOptional()
-    @IsString({ each: true })
-    historical_health: string[];
+  @IsString()
+  @IsNotEmpty()
+  size: string;
 
-    @IsArray()
-    @IsOptional()
-    @IsString({ each: true })
-    special_needs: string[]; 
+  @IsNumber()
+  weight: number;
+
+  @IsNumber()
+  height: number;
+
+  @IsOptional()
+  @IsString()
+  physicalDescription?: string;
+
+  @IsBoolean()
+  vaccinated: boolean;
+
+  @IsBoolean()
+  castrated: boolean;
+
+  @IsBoolean()
+  microchipped: boolean;
+
+  @IsOptional()
+  @IsString()
+  observation?: string;
+
+  @IsOptional()
+  @IsString()
+  status?: string = 'Disponivel';
 }
