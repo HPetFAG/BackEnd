@@ -26,8 +26,15 @@ export class AnimalService {
     return this.animalRepository.findOne({ where: { id } });
   }
 
-  update(id: number, updateAnimalDto: UpdateAnimalDto) {
-    return `This action updates a #${id} Animal`;
+  async update(id: number, updateAnimalDto: UpdateAnimalDto) {
+    const animal = await this.animalRepository.findOne({ where: { id } });
+
+    if (!animal) {
+      throw new Error(`Animal com ID ${id} não encontrado`);
+    }
+
+    const updatedAnimal = this.animalRepository.merge(animal, updateAnimalDto);
+    return await this.animalRepository.save(updatedAnimal);
   }
 
   remove(id: number) {
