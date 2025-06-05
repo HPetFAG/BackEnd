@@ -57,8 +57,4 @@ export class CreateAnimalDto {
   @IsOptional()
   @IsString()
   observation?: string;
-
-  @IsOptional()
-  @IsString()
-  status?: string = 'Disponivel';
 }
