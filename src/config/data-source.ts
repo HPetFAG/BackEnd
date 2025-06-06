@@ -6,10 +6,10 @@ import { Animal } from '../entities/animal.entity';
 export const AppDataSource = new DataSource({
   type: 'postgres',
   host: 'localhost',
-  port: 5435,
+  port: 5432,
   username: 'postgres',
-  password: 'xtz7qr87',
-  database: 'hpet_db',
+  password: 'llwk20051',
+  database: 'helppet_db',
   entities: [User, Animal],
   migrations: [path.resolve(__dirname, 'migrations', '*.{ts,js}')],
   synchronize: false,

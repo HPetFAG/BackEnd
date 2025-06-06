@@ -3,7 +3,7 @@ import { CreateAnimalDto } from './dto/create-animal.dto';
 import { UpdateAnimalDto } from './dto/update-animal.dto';
 import { Animal } from 'src/entities/animal.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 @Injectable()
 export class AnimalService {
@@ -40,5 +40,15 @@ export class AnimalService {
   remove(id: number) {
     console.log(typeof id);
     return this.animalRepository.delete({ id });
+  }
+
+  async buscarPorNome(nome: string) {
+  if (!nome) return this.animalRepository.find();
+
+    return this.animalRepository.find({
+      where: {
+        name: Like(`%${nome}%`) // busca parcial por nome
+      }
+    });
   }
 }

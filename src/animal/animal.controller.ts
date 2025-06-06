@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { AnimalService } from './animal.service';
 import { CreateAnimalDto } from './dto/create-animal.dto';
 import { UpdateAnimalDto } from './dto/update-animal.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/config/constants';
+import { SearchAnimalDto } from './dto/search-animl.dto';
 
 @ApiTags('Animal') // Agrupa os endpoints no Swagger
 @Controller('Animal')
@@ -20,6 +21,11 @@ export class AnimalController {
   @Get()
   findAll() {
     return this.animalService.findAll();
+  }
+
+  @Get('search')
+  async buscarPorNome(@Query('name') name: string) {
+    return this.animalService.buscarPorNome(name);
   }
 
   @Get(':id')
