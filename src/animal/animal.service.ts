@@ -4,6 +4,7 @@ import { UpdateAnimalDto } from './dto/update-animal.dto';
 import { Animal } from 'src/entities/animal.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
+import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class AnimalService {
@@ -14,12 +15,15 @@ export class AnimalService {
 
   async create(createAnimalDto: CreateAnimalDto) {
     const Animal = this.animalRepository.create(createAnimalDto);
-    console.log(Animal);
     return await this.animalRepository.save(Animal);
   }
 
-  findAll() {
-    return this.animalRepository.find();
+   async findAll(options: IPaginationOptions): Promise<Pagination<Animal>> {
+    const queryBuilder = this.animalRepository.createQueryBuilder('animals');
+
+    queryBuilder.orderBy('id', 'DESC');
+
+    return paginate<Animal>(queryBuilder, options)
   }
 
   async findOne(id: number): Promise<Animal | null> {
@@ -38,11 +42,10 @@ export class AnimalService {
   }
 
   remove(id: number) {
-    console.log(typeof id);
     return this.animalRepository.delete({ id });
   }
 
-  async buscarPorNome(nome: string) {
+  async searchByName(nome: string) {
   if (!nome) return this.animalRepository.find();
 
     return this.animalRepository.find({
