@@ -38,8 +38,12 @@ export class AnimalController {
   }
 
   @Get('search')
-  async buscarPorNome(@Query('name') name: string) {
-    return this.animalService.searchByName(name);
+  async buscarPorNome(@Query('name') name: string, @Query('page') page = 1) {
+    const options: IPaginationOptions = {
+      page: Number(page),
+      limit: 6,
+    };
+    return this.animalService.searchByName(name, options);
   }
 
   @Get(':id')

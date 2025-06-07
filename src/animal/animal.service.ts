@@ -45,13 +45,13 @@ export class AnimalService {
     return this.animalRepository.delete({ id });
   }
 
-  async searchByName(nome: string) {
+  async searchByName(nome: string, options: IPaginationOptions) {
   if (!nome) return this.animalRepository.find();
 
-    return this.animalRepository.find({
-      where: {
-        name: Like(`%${nome}%`) // busca parcial por nome
-      }
-    });
-  }
+      const queryBuilder = this.animalRepository
+    .createQueryBuilder('animal')
+    .where('animal.name ILIKE :name', { name: `%${nome}%` });
+
+  return paginate(queryBuilder, options);
+}
 }
