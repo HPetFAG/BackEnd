@@ -1,12 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Animal } from './animal.entity';
 
 @Entity('forms')
 export class Form {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  id_animal: number;
+  @ManyToOne(() => Animal)
+  @JoinColumn({ name: 'id_animal' })
+  animal: Animal;
 
   @Column()
   name: string;
@@ -24,7 +26,7 @@ export class Form {
   address: string;
 
   @Column()
-  residenceType: string; 
+  residenceType: string;
 
   @Column()
   hasYard: boolean;
@@ -41,7 +43,7 @@ export class Form {
   @Column()
   reasonToAdopt: string;
 
-  @Column({ default: "recebido"})
+  @Column({ default: 'recebido' })
   status: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
