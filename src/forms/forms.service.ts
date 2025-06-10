@@ -12,16 +12,19 @@ export class FormsService {
     private formRepository: Repository<Form>,
   ) {}
 
-  create(createFormDto: CreateFormDto) {
-    return 'This action adds a new form';
+  async create(createFormDto: CreateFormDto) {
+    const form = this.formRepository.create(createFormDto);
+    return await this.formRepository.save(form)
   }
 
   findAll() {
-    return `This action returns all forms`;
+    return this.formRepository.find({});
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} form`;
+    return this.formRepository.find({
+      where: { id },
+    });
   }
 
   update(id: number, updateFormDto: UpdateFormDto) {
@@ -29,6 +32,6 @@ export class FormsService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} form`;
+    return this.formRepository.delete({ id });
   }
 }

@@ -4,7 +4,11 @@ import { UpdateAnimalDto } from './dto/update-animal.dto';
 import { Animal } from 'src/entities/animal.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Like, Repository } from 'typeorm';
-import { IPaginationOptions, paginate, Pagination } from 'nestjs-typeorm-paginate';
+import {
+  IPaginationOptions,
+  paginate,
+  Pagination,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class AnimalService {
@@ -18,12 +22,12 @@ export class AnimalService {
     return await this.animalRepository.save(Animal);
   }
 
-   async findAll(options: IPaginationOptions): Promise<Pagination<Animal>> {
+  async findAll(options: IPaginationOptions): Promise<Pagination<Animal>> {
     const queryBuilder = this.animalRepository.createQueryBuilder('animals');
 
     queryBuilder.orderBy('id', 'DESC');
 
-    return paginate<Animal>(queryBuilder, options)
+    return paginate<Animal>(queryBuilder, options);
   }
 
   async findOne(id: number): Promise<Animal | null> {
@@ -46,12 +50,12 @@ export class AnimalService {
   }
 
   async searchByName(nome: string, options: IPaginationOptions) {
-  if (!nome) return this.animalRepository.find();
+    if (!nome) return this.animalRepository.find();
 
-      const queryBuilder = this.animalRepository
-    .createQueryBuilder('animal')
-    .where('animal.name ILIKE :name', { name: `%${nome}%` });
+    const queryBuilder = this.animalRepository
+      .createQueryBuilder('animal')
+      .where('animal.name ILIKE :name', { name: `%${nome}%` });
 
-  return paginate(queryBuilder, options);
-}
+    return paginate(queryBuilder, options);
+  }
 }

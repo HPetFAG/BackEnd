@@ -9,6 +9,7 @@ import { User } from './entities/user.entity';
 import { AnimalModule } from './animal/animal.module';
 import { Animal } from './entities/animal.entity';
 import { FormsModule } from './forms/forms.module';
+import { Form } from './entities/form.entity';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { FormsModule } from './forms/forms.module';
       username: 'postgres',
       password: 'xtz7qr87',
       database: 'hpet_db',
-      entities: [User, Animal],
+      entities: [User, Animal, Form],
       synchronize: true,
     }),
     AuthModule,

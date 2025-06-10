@@ -41,7 +41,7 @@ export class Form {
   @Column()
   reasonToAdopt: string;
 
-  @Column()
+  @Column({ default: "recebido"})
   status: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
