@@ -60,10 +60,19 @@ export class FormsService {
     }));
   }
 
-  findOne(id: number) {
-    return this.formRepository.find({
+  async findOne(id: number) {
+    const forms = await this.formRepository.find({
       where: { id },
+      relations: ['animal'],
     });
+
+    return forms.map((form) => ({
+      ...form,
+      animal: {
+        id: form.animal?.id,
+        name: form.animal?.name,
+      },
+    }));
   }
 
   update(id: number, updateFormDto: UpdateFormDto) {
