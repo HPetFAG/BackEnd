@@ -14,10 +14,10 @@ import { Animal } from './entities/animal.entity';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
-      port: 5435,
+      port: 5432,
       username: 'postgres',
-      password: 'xtz7qr87',
-      database: 'hpet_db',
+      password: 'llwk20051',
+      database: 'helppet_db',
       entities: [User, Animal],
       synchronize: true,
     }),

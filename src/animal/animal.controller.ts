@@ -1,3 +1,4 @@
+import { MathService } from 'src/services/math.service';
 import {
   Controller,
   Get,
@@ -13,19 +14,26 @@ import { CreateAnimalDto } from './dto/create-animal.dto';
 import { UpdateAnimalDto } from './dto/update-animal.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/config/constants';
-import { SearchAnimalDto } from './dto/search-animl.dto';
 import { IPaginationOptions } from 'nestjs-typeorm-paginate';
 
 @ApiTags('Animal') // Agrupa os endpoints no Swagger
 @Controller('Animal')
 export class AnimalController {
-  constructor(private readonly animalService: AnimalService) {}
+  constructor(
+    private readonly animalService: AnimalService,
+    private readonly mathService: MathService,
+  ) {}
 
   @Public()
   @Post()
   create(@Body() createAnimalDto: CreateAnimalDto) {
     console.log(createAnimalDto);
     return this.animalService.create(createAnimalDto);
+  }
+
+  @Get('total-cadastrados')
+  getTotalCadastro() {
+    return this.mathService.calcTotalCadastro();
   }
 
   @Get()
