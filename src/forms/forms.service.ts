@@ -1,9 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateFormDto } from './dto/create-form.dto';
 import { UpdateFormDto } from './dto/update-form.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Form } from 'src/entities/form.entity';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { Animal } from 'src/entities/animal.entity';
 
 @Injectable()
@@ -17,7 +21,6 @@ export class FormsService {
   ) {}
 
   async create(createFormDto: CreateFormDto) {
-    // Verifica se o animal existe
     const animal = await this.animalRepository.findOne({
       where: { id: createFormDto.id_animal },
     });
@@ -33,7 +36,14 @@ export class FormsService {
       animal: { id: createFormDto.id_animal },
     });
 
-    return await this.formRepository.save(form);
+    try {
+      return await this.formRepository.save(form);
+    } catch (error) {
+      if (error instanceof QueryFailedError) {
+        throw new ConflictException('Documento já cadastrado.');
+      }
+      throw error;
+    }
   }
 
   async findAll() {
