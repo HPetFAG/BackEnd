@@ -1,29 +1,53 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFormDto } from './dto/create-form.dto';
 import { UpdateFormDto } from './dto/update-form.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Form } from 'src/entities/form.entity';
 import { Repository } from 'typeorm';
+import { Animal } from 'src/entities/animal.entity';
 
 @Injectable()
 export class FormsService {
   constructor(
     @InjectRepository(Form)
     private formRepository: Repository<Form>,
+
+    @InjectRepository(Animal)
+    private animalRepository: Repository<Animal>,
   ) {}
 
   async create(createFormDto: CreateFormDto) {
+    // Verifica se o animal existe
+    const animal = await this.animalRepository.findOne({
+      where: { id: createFormDto.id_animal },
+    });
+
+    if (!animal) {
+      throw new NotFoundException(
+        `Animal com ID ${createFormDto.id_animal} não encontrado`,
+      );
+    }
+
     const form = this.formRepository.create({
       ...createFormDto,
-      animal: { id: createFormDto.id_animal }, 
+      animal: { id: createFormDto.id_animal },
     });
-    return await this.formRepository.save(form);
 
-    // return console.log(createFormDto.id_animal)
+    return await this.formRepository.save(form);
   }
 
-  findAll() {
-    return this.formRepository.find({});
+  async findAll() {
+    const forms = await this.formRepository.find({
+      relations: ['animal'],
+    });
+
+    return forms.map((form) => ({
+      ...form,
+      animal: {
+        id: form.animal?.id,
+        name: form.animal?.name,
+      },
+    }));
   }
 
   findOne(id: number) {
