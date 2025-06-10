@@ -8,17 +8,19 @@ import { ConfigModule } from '@nestjs/config';
 import { User } from './entities/user.entity';
 import { AnimalModule } from './animal/animal.module';
 import { Animal } from './entities/animal.entity';
+import { FormsModule } from './forms/forms.module';
+import { Form } from './entities/form.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
-      port: 5432,
+      port: 5435,
       username: 'postgres',
-      password: 'llwk20051',
-      database: 'helppet_db',
-      entities: [User, Animal],
+      password: 'xtz7qr87',
+      database: 'HPet',
+      entities: [User, Animal, Form],
       synchronize: true,
     }),
     AuthModule,
@@ -27,6 +29,7 @@ import { Animal } from './entities/animal.entity';
       isGlobal: true,
     }),
     AnimalModule,
+    FormsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
