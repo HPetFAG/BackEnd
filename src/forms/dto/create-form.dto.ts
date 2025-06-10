@@ -1,4 +1,11 @@
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  isNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateFormDto {
   @IsString()
@@ -8,6 +15,10 @@ export class CreateFormDto {
   @IsString()
   @IsNotEmpty()
   phone: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  id_animal: number;
 
   @IsString()
   @IsNotEmpty()

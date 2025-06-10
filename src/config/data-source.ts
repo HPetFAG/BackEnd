@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
   port: 5435,
   username: 'postgres',
   password: 'xtz7qr87',
-  database: 'hpet_db',
+  database: 'HPet',
   entities: [User, Animal, Form],
   migrations: [path.resolve(__dirname, 'migrations', '*.{ts,js}')],
   synchronize: false,

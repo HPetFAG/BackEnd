@@ -13,8 +13,13 @@ export class FormsService {
   ) {}
 
   async create(createFormDto: CreateFormDto) {
-    const form = this.formRepository.create(createFormDto);
-    return await this.formRepository.save(form)
+    const form = this.formRepository.create({
+      ...createFormDto,
+      animal: { id: createFormDto.id_animal }, 
+    });
+    return await this.formRepository.save(form);
+
+    // return console.log(createFormDto.id_animal)
   }
 
   findAll() {

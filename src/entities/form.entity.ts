@@ -16,7 +16,7 @@ export class Form {
   @Column()
   phone: string;
 
-  @Column()
+  @Column({unique: true})
   document: string;
 
   @Column()

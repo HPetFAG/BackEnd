@@ -19,7 +19,7 @@ import { Form } from './entities/form.entity';
       port: 5435,
       username: 'postgres',
       password: 'xtz7qr87',
-      database: 'hpet_db',
+      database: 'HPet',
       entities: [User, Animal, Form],
       synchronize: true,
     }),
