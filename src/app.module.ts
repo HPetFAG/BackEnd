@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { User } from './entities/user.entity';
 import { AnimalModule } from './animal/animal.module';
 import { Animal } from './entities/animal.entity';
+import { FormsModule } from './forms/forms.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { Animal } from './entities/animal.entity';
       isGlobal: true,
     }),
     AnimalModule,
+    FormsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
