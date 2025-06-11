@@ -51,8 +51,4 @@ export class CreateFormDto {
   @IsString()
   @IsNotEmpty()
   reasonToAdopt: string;
-
-  @IsString()
-  @IsOptional()
-  status?: string = 'recebido';
 }

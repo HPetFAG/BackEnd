@@ -2,11 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { FormsService } from './forms.service';
 import { CreateFormDto } from './dto/create-form.dto';
 import { UpdateFormDto } from './dto/update-form.dto';
+import { Public } from 'src/config/constants';
 
 @Controller('forms')
 export class FormsController {
   constructor(private readonly formsService: FormsService) {}
 
+  @Public()
   @Post()
   create(@Body() createFormDto: CreateFormDto) {
     return this.formsService.create(createFormDto);

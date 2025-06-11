@@ -24,7 +24,6 @@ export class AnimalController {
     private readonly mathService: MathService,
   ) {}
 
-  @Public()
   @Post()
   create(@Body() createAnimalDto: CreateAnimalDto) {
     console.log(createAnimalDto);
@@ -36,6 +35,7 @@ export class AnimalController {
     return this.mathService.calcTotalCadastro();
   }
 
+  @Public()
   @Get()
   async findAll(@Query('page') page = 1) {
     const options: IPaginationOptions = {
@@ -54,6 +54,7 @@ export class AnimalController {
     return this.animalService.searchByName(name, options);
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.animalService.findOne(+id);
