@@ -30,9 +30,14 @@ export class AnimalController {
     return this.animalService.create(createAnimalDto);
   }
 
-  @Get('total-cadastrados')
-  getTotalCadastro() {
-    return this.mathService.calcTotalCadastro();
+  @Get('total-registered')
+  getTotalRegistered() {
+    return this.mathService.calcTotalRegistered();
+  }
+
+  @Get('total-available')
+  getTotalAvailables() {
+    return this.mathService.calcTotalAvailables();
   }
 
   @Public()

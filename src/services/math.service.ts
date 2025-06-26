@@ -13,7 +13,7 @@ export class MathService {
    * Calcula o total de cadastros de animais.
    * @returns O total de cadastros.
    */
-  async calcTotalCadastro(): Promise<number> {
+  async calcTotalRegistered(): Promise<number> {
     return this.animalRepository.count();
   }
 
@@ -21,9 +21,8 @@ export class MathService {
    * Calcula o total de animais disponíveis para adoção.
    * @returns O total de animais disponíveis.
    */
-  calcDisponiveis(): number {
-    const disponiveis = 50; // Exemplo de valor de animais disponíveis
-    return disponiveis;
+  calcTotalAvailables(): Promise<number> {
+    return this.animalRepository.count({where: { status: 'disponivel' } });
   }
 
   /**

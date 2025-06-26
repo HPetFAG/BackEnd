@@ -16,10 +16,10 @@ import { Form } from './entities/form.entity';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
-      port: 5435,
+      port: 5432,
       username: 'postgres',
-      password: 'xtz7qr87',
-      database: 'Pet',
+      password: 'llwk20051',
+      database: 'hpet_db',
       entities: [User, Animal, Form],
       synchronize: true,
     }),

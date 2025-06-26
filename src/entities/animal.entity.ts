@@ -52,4 +52,5 @@ export class Animal {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createAt: Date;
+  static status: string;
 }
