@@ -60,6 +60,11 @@ export class AnimalController {
     return this.mathService.calcTotalAdoptedProgress();
   }
 
+  @Get('progress-in-progress')
+  async getProgressoEmProcesso() {
+    return this.mathService.calcTotalInProgressProgress();
+  }
+
   @Public()
   @Get()
   async findAll(@Query('page') page = 1) {

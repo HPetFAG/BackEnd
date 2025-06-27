@@ -88,4 +88,27 @@ export class MathService {
 
     return progresso;   
   }
+
+  async calcTotalInProgressProgress(): Promise<number> {
+    // Animais em processo criados nos últimos 30 dias
+    const emProcessoUltimos30Dias = await this.animalRepository.count({
+      where: {
+        status: 'em processo',
+        createAt: MoreThanOrEqual(date30DaysAgo),
+      },
+    });
+
+    // Animais em processo criados antes de 30 dias atrás
+    const emProcessoAntes30Dias = await this.animalRepository.count({
+      where: {
+        status: 'em processo',
+        createAt: LessThan(date30DaysAgo),
+      },
+    });
+
+    // Progresso: comparação entre os dois períodos
+    const progresso = ((emProcessoUltimos30Dias - emProcessoAntes30Dias) / (emProcessoAntes30Dias || 1)) * 100;
+
+    return progresso;   
+  }
 }
