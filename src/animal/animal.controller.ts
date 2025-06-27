@@ -80,6 +80,15 @@ export class AnimalController {
     return this.animalService.findAll(options);
   }
 
+  @Get('search/status/:status')
+  async buscarPorStatus(@Param('status') status: string, @Query('page') page = 1) {
+    const options: IPaginationOptions = {
+      page: Number(page),
+      limit: 6,
+    };
+    return this.animalService.searchByStatus(status, options);
+  }
+
   @Get('search')
   async buscarPorNome(@Query('name') name: string, @Query('page') page = 1) {
     const options: IPaginationOptions = {

@@ -58,4 +58,14 @@ export class AnimalService {
 
     return paginate(queryBuilder, options);
   }
+
+  async searchByStatus(status: string, options: IPaginationOptions) {
+    if (!status) return this.animalRepository.find();
+
+    const queryBuilder = this.animalRepository  
+      .createQueryBuilder('animal')
+      .where('animal.status ILIKE :status', { status: `%${status}%` });
+      
+    return paginate(queryBuilder, options);
+  }
 }
