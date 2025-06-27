@@ -111,4 +111,25 @@ export class MathService {
 
     return progresso;   
   }
+
+  async calcTotalRegisteredProgress(): Promise<number> {
+    // Animais cadastrados nos últimos 30 dias
+    const cadastradosUltimos30Dias = await this.animalRepository.count({
+      where: {
+        createAt: MoreThanOrEqual(date30DaysAgo),
+      },
+    });
+
+    // Animais cadastrados antes de 30 dias atrás
+    const cadastradosAntes30Dias = await this.animalRepository.count({
+      where: {
+        createAt: LessThan(date30DaysAgo),
+      },
+    });
+
+    // Progresso: comparação entre os dois períodos
+    const progresso = ((cadastradosUltimos30Dias - cadastradosAntes30Dias) / (cadastradosAntes30Dias || 1)) * 100;
+
+    return progresso;
+  }
 }
