@@ -40,6 +40,21 @@ export class AnimalController {
     return this.mathService.calcTotalAvailables();
   }
 
+  @Get('total-adopted')
+  getAdotados() {
+    return this.mathService.calcTotalAdopted();
+  }
+
+  @Get('total-in-progress')
+  getTotalInProgress() {
+    return this.mathService.calcTotalInProgress();
+  }
+
+  @Get('progress-available')
+  async getProgressoDisponiveis() {
+    return this.mathService.calcTotalAvailablesProgress();
+  }
+
   @Public()
   @Get()
   async findAll(@Query('page') page = 1) {
