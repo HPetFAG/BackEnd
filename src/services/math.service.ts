@@ -63,7 +63,7 @@ export class MathService {
     // Progresso: comparação entre os dois períodos
     const progresso = ((disponiveisUltimos30Dias - disponiveisAntes30Dias) / (disponiveisAntes30Dias || 1)) * 100;
 
-    return progresso;
+    return parseFloat(progresso.toFixed(2));
   }
 
   async calcTotalAdoptedProgress(): Promise<number> {
@@ -86,7 +86,7 @@ export class MathService {
     // Progresso: comparação entre os dois períodos
     const progresso = ((adotadosUltimos30Dias - adotadosAntes30Dias) / (adotadosAntes30Dias || 1)) * 100;
 
-    return progresso;   
+    return parseFloat(progresso.toFixed(2));   
   }
 
   async calcTotalInProgressProgress(): Promise<number> {
@@ -109,7 +109,7 @@ export class MathService {
     // Progresso: comparação entre os dois períodos
     const progresso = ((emProcessoUltimos30Dias - emProcessoAntes30Dias) / (emProcessoAntes30Dias || 1)) * 100;
 
-    return progresso;   
+    return parseFloat(progresso.toFixed(2));   
   }
 
   async calcTotalRegisteredProgress(): Promise<number> {
@@ -130,6 +130,6 @@ export class MathService {
     // Progresso: comparação entre os dois períodos
     const progresso = ((cadastradosUltimos30Dias - cadastradosAntes30Dias) / (cadastradosAntes30Dias || 1)) * 100;
 
-    return progresso;
+    return parseFloat(progresso.toFixed(2));
   }
 }
