@@ -4,6 +4,9 @@ import { Animal } from 'src/entities/animal.entity';
 import { Repository } from 'typeorm';
 import { LessThanOrEqual, LessThan, MoreThanOrEqual } from 'typeorm';
 
+// Data de 30 dias atrás para comparação de progresso
+const date30DaysAgo = new Date();
+date30DaysAgo.setDate(date30DaysAgo.getDate() - 30);
 @Injectable()
 export class MathService {
   constructor(
@@ -34,23 +37,13 @@ export class MathService {
     return this.animalRepository.count({where: { status: 'adotado' } });
   }
 
-  /**
-   * Calcula o total de animais em processo de adoção.
-   * @returns O total de animais em processo de adoção.
-   */
+
   calcTotalInProgress(): Promise<number> {
     return this.animalRepository.count({where: { status: 'em processo' } });
   }
 
-  /**
-   * Calcula o total de animais disponíveis para adoção atualmente e há mais de 30 dias.
-   * @returns Um objeto contendo o progresso percentual e se é positivo ou negativo.
-   */
+  // Função para calcular o progresso de animais disponíveis nos últimos 30 dias em %, retornando o valor positivo ou negativo.
   async calcTotalAvailablesProgress(): Promise<number> {
-    // Data de 30 dias atrás
-    const date30DaysAgo = new Date();
-    date30DaysAgo.setDate(date30DaysAgo.getDate() - 30);
-
     // Animais disponíveis criados nos últimos 30 dias
     const disponiveisUltimos30Dias = await this.animalRepository.count({
       where: {
@@ -70,11 +63,29 @@ export class MathService {
     // Progresso: comparação entre os dois períodos
     const progresso = ((disponiveisUltimos30Dias - disponiveisAntes30Dias) / (disponiveisAntes30Dias || 1)) * 100;
 
-    let tendencia: 'positivo' | 'negativo' | 'estavel';
-    if (progresso > 0) tendencia = 'positivo';
-    else if (progresso < 0) tendencia = 'negativo';
-    else tendencia = 'estavel';
-
     return progresso;
+  }
+
+  async calcTotalAdoptedProgress(): Promise<number> {
+    // Animais adotados criados nos últimos 30 dias
+    const adotadosUltimos30Dias = await this.animalRepository.count({
+      where: {
+        status: 'adotado',
+        createAt: MoreThanOrEqual(date30DaysAgo),
+      },
+    });
+
+    // Animais adotados criados antes de 30 dias atrás
+    const adotadosAntes30Dias = await this.animalRepository.count({
+      where: {
+        status: 'adotado',
+        createAt: LessThan(date30DaysAgo),
+      },
+    });
+
+    // Progresso: comparação entre os dois períodos
+    const progresso = ((adotadosUltimos30Dias - adotadosAntes30Dias) / (adotadosAntes30Dias || 1)) * 100;
+
+    return progresso;   
   }
 }

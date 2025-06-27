@@ -55,6 +55,11 @@ export class AnimalController {
     return this.mathService.calcTotalAvailablesProgress();
   }
 
+  @Get('progress-adopted')
+  async getProgressoAdotados() {
+    return this.mathService.calcTotalAdoptedProgress();
+  }
+
   @Public()
   @Get()
   async findAll(@Query('page') page = 1) {
