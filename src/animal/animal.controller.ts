@@ -70,6 +70,16 @@ export class AnimalController {
     return this.mathService.calcTotalRegisteredProgress();
   }
 
+  @Get('progress-adoption-rate')
+  async metaAdoption() {
+    return this.mathService.metaAdoption();
+  }
+
+  @Get('meta')
+  async meta() {
+    return this.mathService.meta();
+  }
+
   @Public()
   @Get()
   async findAll(@Query('page') page = 1) {

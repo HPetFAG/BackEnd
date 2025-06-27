@@ -13,6 +13,11 @@ export class MathService {
     @InjectRepository(Animal)
     private animalRepository: Repository<Animal>,
   ) {}
+
+  async meta(): Promise<number> {
+    // Meta de adoção definida como 50
+    return 50;
+  }
   /**
    * Calcula o total de cadastros de animais.
    * @returns O total de cadastros.
@@ -131,5 +136,15 @@ export class MathService {
     const progresso = ((cadastradosUltimos30Dias - cadastradosAntes30Dias) / (cadastradosAntes30Dias || 1)) * 100;
 
     return parseFloat(progresso.toFixed(2));
+  }
+
+  async metaAdoption(): Promise<number> {
+    const totalAdopted = await this.calcTotalAdopted();
+    const metaAdoptions = await this.meta();
+
+    const percent = (totalAdopted / metaAdoptions) * 100;
+    // const meta = 50; // Removido para evitar conflito de declaração
+
+    return parseFloat(percent.toFixed(2));
   }
 }
