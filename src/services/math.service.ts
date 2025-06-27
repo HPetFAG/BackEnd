@@ -44,7 +44,7 @@ export class MathService {
 
 
   calcTotalInProgress(): Promise<number> {
-    return this.animalRepository.count({where: { status: 'em processo' } });
+    return this.animalRepository.count({where: { status: 'pendente' } });
   }
 
   // Função para calcular o progresso de animais disponíveis nos últimos 30 dias em %, retornando o valor positivo ou negativo.
@@ -95,18 +95,18 @@ export class MathService {
   }
 
   async calcTotalInProgressProgress(): Promise<number> {
-    // Animais em processo criados nos últimos 30 dias
+    // Animais pendente criados nos últimos 30 dias
     const emProcessoUltimos30Dias = await this.animalRepository.count({
       where: {
-        status: 'em processo',
+        status: 'pendente',
         createAt: MoreThanOrEqual(date30DaysAgo),
       },
     });
 
-    // Animais em processo criados antes de 30 dias atrás
+    // Animais pendente criados antes de 30 dias atrás
     const emProcessoAntes30Dias = await this.animalRepository.count({
       where: {
-        status: 'em processo',
+        status: 'pendente',
         createAt: LessThan(date30DaysAgo),
       },
     });

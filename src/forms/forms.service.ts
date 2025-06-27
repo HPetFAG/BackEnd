@@ -4,7 +4,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateFormDto } from './dto/create-form.dto';
-import { UpdateFormDto } from './dto/update-form.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Form } from 'src/entities/form.entity';
 import { QueryFailedError, Repository } from 'typeorm';
@@ -20,35 +19,66 @@ export class FormsService {
     private animalRepository: Repository<Animal>,
   ) {}
 
+  // async create(createFormDto: CreateFormDto) {
+  //   const animal = await this.animalRepository.findOne({
+  //     where: { id: createFormDto.id_animal },
+  //   });
+
+  //   if (!animal) {
+  //     throw new NotFoundException(
+  //       `Animal com ID ${createFormDto.id_animal} não encontrado`,
+  //     );
+  //   }
+
+  //   const form = this.formRepository.create({
+  //     ...createFormDto,
+  //     animal: { id: createFormDto.id_animal },
+  //   });
+
+  //   try {
+  //     return await this.formRepository.save(form);
+  //   } catch (error) {
+  //     if (error instanceof QueryFailedError) {
+  //       throw new ConflictException('Documento já cadastrado.');
+  //     }
+  //     throw error;
+  //   }
+  // }
+
   async create(createFormDto: CreateFormDto) {
-    const animal = await this.animalRepository.findOne({
-      where: { id: createFormDto.id_animal },
-    });
+  const animal = await this.animalRepository.findOne({
+    where: { id: createFormDto.id_animal },
+  });
+  if (!animal) throw new NotFoundException
 
-    if (!animal) {
-      throw new NotFoundException(
-        `Animal com ID ${createFormDto.id_animal} não encontrado`,
-      );
+  const form = this.formRepository.create({
+    ...createFormDto,
+    animal: { id: createFormDto.id_animal },
+  });
+
+  try {
+    const savedForm = await this.formRepository.save(form);
+
+    // atualiza status do animal
+    animal.status = 'pentende'; // ou outro valor conforme a lógica
+    await this.animalRepository.save(animal);
+
+    return savedForm;
+  } catch (error) {
+    if (error instanceof QueryFailedError) {
+      throw new ConflictException('Documento já cadastrado.');
     }
-
-    const form = this.formRepository.create({
-      ...createFormDto,
-      animal: { id: createFormDto.id_animal },
-    });
-
-    try {
-      return await this.formRepository.save(form);
-    } catch (error) {
-      if (error instanceof QueryFailedError) {
-        throw new ConflictException('Documento já cadastrado.');
-      }
-      throw error;
-    }
+    throw error;
   }
+}
+
 
   async findAll() {
     const forms = await this.formRepository.find({
       relations: ['animal'],
+      order: {
+        id: 'ASC', // ou 'DESC' para ordem decrescente
+      },
     });
 
     return forms.map((form) => ({
@@ -75,8 +105,11 @@ export class FormsService {
     }));
   }
 
-  update(id: number, updateFormDto: UpdateFormDto) {
-    return `This action updates a #${id} form`;
+  async updateStatus(id: number, status: string): Promise<Form> {
+    const form = await this.formRepository.findOne({ where: { id } });
+    if (!form) throw new NotFoundException('Formulário não encontrado');
+    form.status = status;
+    return await this.formRepository.save(form);
   }
 
   remove(id: number) {

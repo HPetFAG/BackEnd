@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
 import { FormsService } from './forms.service';
 import { CreateFormDto } from './dto/create-form.dto';
-import { UpdateFormDto } from './dto/update-form.dto';
 import { Public } from 'src/config/constants';
 
 @Controller('forms')
@@ -24,9 +23,13 @@ export class FormsController {
     return this.formsService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFormDto: UpdateFormDto) {
-    return this.formsService.update(+id, updateFormDto);
+  @Patch(':id/status')
+  async updateStatus(
+    @Param('id',) id: number,
+    @Body('status') status: string,
+  ) {
+    const form = await this.formsService.updateStatus(id, status);
+    return { data: form };
   }
 
   @Delete(':id')
