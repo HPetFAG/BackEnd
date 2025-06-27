@@ -46,32 +46,31 @@ export class FormsService {
   // }
 
   async create(createFormDto: CreateFormDto) {
-  const animal = await this.animalRepository.findOne({
-    where: { id: createFormDto.id_animal },
-  });
-  if (!animal) throw new NotFoundException
+    const animal = await this.animalRepository.findOne({
+      where: { id: createFormDto.id_animal },
+    });
+    if (!animal) throw new NotFoundException();
 
-  const form = this.formRepository.create({
-    ...createFormDto,
-    animal: { id: createFormDto.id_animal },
-  });
+    const form = this.formRepository.create({
+      ...createFormDto,
+      animal: { id: createFormDto.id_animal },
+    });
 
-  try {
-    const savedForm = await this.formRepository.save(form);
+    try {
+      const savedForm = await this.formRepository.save(form);
 
-    // atualiza status do animal
-    animal.status = 'pentende'; // ou outro valor conforme a lógica
-    await this.animalRepository.save(animal);
+      // atualiza status do animal
+      animal.status = 'pentende'; // ou outro valor conforme a lógica
+      await this.animalRepository.save(animal);
 
-    return savedForm;
-  } catch (error) {
-    if (error instanceof QueryFailedError) {
-      throw new ConflictException('Documento já cadastrado.');
+      return savedForm;
+    } catch (error) {
+      if (error instanceof QueryFailedError) {
+        throw new ConflictException('Documento já cadastrado.');
+      }
+      throw error;
     }
-    throw error;
   }
-}
-
 
   async findAll() {
     const forms = await this.formRepository.find({
@@ -106,10 +105,27 @@ export class FormsService {
   }
 
   async updateStatus(id: number, status: string): Promise<Form> {
-    const form = await this.formRepository.findOne({ where: { id } });
+    const form = await this.formRepository.findOne({
+      where: { id },
+      relations: ['animal'],
+    });
     if (!form) throw new NotFoundException('Formulário não encontrado');
+
+    // Atualiza o status do formulário
     form.status = status;
-    return await this.formRepository.save(form);
+    await this.formRepository.save(form);
+
+    // Ajusta status do animal conforme a decisão do formulário
+    if (form.animal) {
+      if (status === 'Aprovado') {
+        form.animal.status = 'adotado';
+      } else if (status === 'Recusado' || status === 'Rejeitado') {
+        form.animal.status = 'disponivel';
+      }
+      await this.animalRepository.save(form.animal);
+    }
+
+    return form;
   }
 
   remove(id: number) {
